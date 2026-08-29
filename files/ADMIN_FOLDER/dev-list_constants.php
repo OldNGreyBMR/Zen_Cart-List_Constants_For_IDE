@@ -132,8 +132,9 @@ function parse_file($filename, $array_names = []): void
 
         foreach ($$array_name as $k => $v) {
             if ($show_constant_values) {
-                $v = str_replace("'", "\'", (string) $v);
-                $v = str_replace(["\r", "\n"], '', $v);
+                //$v = str_replace("'", "\'", (string) $v);
+                $v = preg_replace("/(?<!\\\\)'/", "\\'", (string) $v);                
+                $v = str_replace(["\r", "\n"], '', $v);            // Replace with a negative lookbehind regex that only escapes apostrophes not already preceded by a backslash.
                 //   $v = str_replace("\n", "' . PHP_EOL . '", $v);
             } else {
                 $v = '';
